@@ -1,6 +1,6 @@
 FROM python:3.9
 WORKDIR /server 
-COPY ./server.py /server/server.py
+COPY ./server/server.py /server/server.py
 RUN pip install mysql-connector-python \fastapi uvicorn
 EXPOSE 8000
 CMD uvicorn server:app \
