@@ -1,0 +1,7 @@
+FROM python:3.9
+WORKDIR /server 
+COPY ./server.py /server/server.py
+RUN pip install mysql-connector-python \fastapi uvicorn
+EXPOSE 8000
+CMD uvicorn server:app \
+ --proxy-headers --host 0.0.0.0 --port 8000
