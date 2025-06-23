@@ -7,14 +7,16 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - MYSQL_DATABASE 
-      - MYSQL_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_HOST=db
-      - MYSQL_USER 
+      - MYSQL_DATABASE=${MYSQL_DATABASE} 
+      # - MYSQL_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      # - MYSQL_HOST=db //old way
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_USER=${MYSQL_USER}
     restart: always
-    depends_on:
-      db: 
-        condition: service_healthy
+    # depends_on:
+    #   db: 
+    #     condition: service_healthy
 #il faut faire composer build et faire le healthcheck aussi
   db:
     image: mysql:9.2

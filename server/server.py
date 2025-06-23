@@ -3,6 +3,7 @@ import os
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi import Form
 
 app = FastAPI()
 origins = ["*"]
@@ -69,5 +70,29 @@ async def get_users():
     print("Total number of rows in table: ", cursor.rowcount)
     # renvoyer nos données et 200 code KO
     return {'utilisateurs': records}
+
+@app.post("/users")
+async def add_user(
+    lastName: str = Form(...),
+    firstName: str = Form(...),
+    birthDate: str = Form(...),
+    postalCode: str = Form(...),
+    city: str = Form(...),
+    email: str = Form(...)
+):
+    try:
+        cursor = conn.cursor()
+        sql = """
+        INSERT INTO Utilisateurs (Nom, Prenom, Naissance, Postal, Ville, Email)
+        VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        values = (lastName, firstName, birthDate, postalCode, city, email)
+        cursor.execute(sql, values)
+        conn.commit()
+        return {"message": "✅ Utilisateur ajouté avec succès"}
+    except Exception as e:
+        print("Erreur SQL :", e)
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
 
 
