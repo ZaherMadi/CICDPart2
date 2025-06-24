@@ -1,4 +1,5 @@
-
+#Ce fichier avait pour objectif d'acceder a la bdd always data en local mais ce fut un echec car mon ip du container netait pas autorisée par la bdd
+#vercel n'en tiendra pas compte donc je le laisse ainsi pour reference
 services:
   api:
     build:
@@ -18,19 +19,19 @@ services:
     #   db: 
     #     condition: service_healthy
 #il faut faire composer build et faire le healthcheck aussi
-  db:
-    image: mysql:9.2
-    restart: always
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      # - MYSQL_DATABASE
-      # - MYSQL_USER
+  # db:
+  #   image: mysql:9.2
+  #   restart: always
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+  #     # - MYSQL_DATABASE
+  #     # - MYSQL_USER
       
-    ports:
-      - "3306:3306"
-    healthcheck:
-      # test: "mysqladmin ping -h localhost -u root -p MYSQL_ROOT_PASSWORD | exit 1 "
-       test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$MYSQL_ROOT_PASSWORD || exit 1"]
+  #   ports:
+  #     - "3306:3306"
+  #   healthcheck:
+  #     # test: "mysqladmin ping -h localhost -u root -p MYSQL_ROOT_PASSWORD | exit 1 "
+  #      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$MYSQL_ROOT_PASSWORD || exit 1"]
 
-    volumes:
-      - ./sqlfiles/:/docker-entrypoint-initdb.d
+  #   volumes:
+  #     - ./sqlfiles/:/docker-entrypoint-initdb.d
