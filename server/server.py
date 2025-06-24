@@ -26,7 +26,7 @@ app.add_middleware(
 
 @app.get("/")
 async def home(request: Request):
-    return { "message": "Bienvenue sur l'API de gestion des utilisateurs !",}
+    return { "message": "Bienvenue sur l'API de gestion des utilisateurs !"}
 
 
 @app.get("/users")
