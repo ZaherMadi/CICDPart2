@@ -1,12 +1,12 @@
 # import mysql.connector
 # import os
 from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
+# from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
 # from fastapi import Form
 
 app = FastAPI()
-origins = ["*"]
+# origins = ["*"]
 
 # app.add_middleware(
 #     CORSMiddleware,
