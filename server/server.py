@@ -26,34 +26,7 @@ app.add_middleware(
 
 @app.get("/")
 async def home(request: Request):
-    accept = request.headers.get("accept", "")
-
-    if "text/html" in accept:
-        return HTMLResponse(
-content="""
-<body style="
-    background-image: url('https://wallpapercave.com/wp/wp4308367.jpg');
-    background-size: cover;
-    color: white;
-    font-family: Arial, sans-serif;
-    padding: 40px;
-    text-shadow: 1px 1px 3px black;
-">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Borussia_Dortmund_logo.svg" alt="Dortmund Logo" style="height: 100px;">
-    <p>Bienvenue sur la page d’accueil de l’API!</p>
-    <p>Si vous voyez cette page, c’est que vous vous êtes connecté à l’API via un navigateur.</p>
-    <p>Normalement, une API est faite pour être utilisée avec un outil comme <strong>Postman</strong>, <strong>Thunder Client</strong> ou directement depuis un frontend.</p>
-    <p>Cette page est juste là pour vous souhaiter la bienvenue 😊</p>
-    <p>Vous pouvez à présent aller sur : <a href="/users" style="color: #ffcc00;">/users</a></p>
-</body>
-""",
-            status_code=200
-        )
-
-    return JSONResponse(
-        content={"message": "✅ API OK 👌"},
-        status_code=200
-    )
+    return { "message": "Bienvenue sur l'API de gestion des utilisateurs !",}
 
 
 @app.get("/users")
