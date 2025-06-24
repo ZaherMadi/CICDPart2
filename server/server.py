@@ -16,13 +16,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-#Create a connection to the database
-conn = mysql.connector.connect(
-    database=os.getenv("MYSQL_DATABASE"),
-    user=os.getenv("MYSQL_USER"),
-    password=os.getenv("MYSQL_PASSWORD"),
-    port=3306,
-    host=os.getenv("MYSQL_HOST"))
+# #Create a connection to the database
+# conn = mysql.connector.connect(
+#     database=os.getenv("MYSQL_DATABASE"),
+#     user=os.getenv("MYSQL_USER"),
+#     password=os.getenv("MYSQL_PASSWORD"),
+#     port=3306,
+#     host=os.getenv("MYSQL_HOST"))
 
 @app.get("/")
 async def home(request: Request):
