@@ -31,10 +31,6 @@ async def home(request: Request):
     if "text/html" in accept:
         return HTMLResponse(
 content="""
-<head>
-    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/6/67/Borussia_Dortmund_logo.svg" type="image/svg+xml">
-    <title>API Borussia Style</title>
-</head>
 <body style="
     background-image: url('https://wallpapercave.com/wp/wp4308367.jpg');
     background-size: cover;
