@@ -7,8 +7,9 @@ from fastapi import Form # pour la gestion des formulaires
 import jwt # pour la gestion des tokens JWT
 from jwt.exceptions import ExpiredSignatureError, InvalidTokenError # pour la gestion des tokens JWT
 from pydantic import BaseModel # pour la validation des données
+from typing import Optional  
 
-Algorithm = "HS256"  # Algorithme de signature pour JWT 
+ALGORITHM = "HS256"  # Algorithme de signature pour JWT 
 SECRET_KEY = os.getenv("JWT_SECRET_KEY")  # Clé secrète pour signer les tokens JWT
 
 class Login(BaseModel):
