@@ -21,7 +21,6 @@ class User(BaseModel):
     ville: str
     code_postal: str
 
-
 app = FastAPI()
 origins = ["*"]
 
