@@ -93,17 +93,19 @@ content="""
         status_code=200
     )
 
-
 @app.get("/users")
 async def get_users():
-    cursor = conn.cursor()
-    sql_select_Query = "select * from utilisateur"
-    cursor.execute(sql_select_Query)
-    # get all records
-    records = cursor.fetchall()
-    print("Total number of rows in table: ", cursor.rowcount)
-    # renvoyer nos données et 200 code KO
-    return {'utilisateurs': records}
+    try:
+        conn = get_db_connection()   # ✅ Ouvre la connexion ici
+        cursor = conn.cursor()
+        sql_select_Query = "SELECT * FROM utilisateur"
+        cursor.execute(sql_select_Query)
+        records = cursor.fetchall()
+        conn.close()  # ✅ Toujours fermer la connexion
+        return {'utilisateurs': records}
+    except Exception as e:
+        print("Erreur :", e)
+        return JSONResponse(content={"error": str(e)}, status_code=500)
 
 @app.post("/users")
 async def add_user(
@@ -112,21 +114,23 @@ async def add_user(
     birthDate: str = Form(...),
     postalCode: str = Form(...),
     city: str = Form(...),
-    email: str = Form(...)
-):
+    email: str = Form(...)):
     try:
+        conn = get_db_connection()  # ✅ Ajoute cette ligne
         cursor = conn.cursor()
         sql = """
-        INSERT INTO Utilisateurs (Nom, Prenom, Naissance, Postal, Ville, Email)
+        INSERT INTO utilisateur (Nom, Prenom, Naissance, Postal, Ville, Email)
         VALUES (%s, %s, %s, %s, %s, %s)
         """
         values = (lastName, firstName, birthDate, postalCode, city, email)
         cursor.execute(sql, values)
         conn.commit()
+        conn.close()
         return {"message": "✅ Utilisateur ajouté avec succès"}
     except Exception as e:
         print("Erreur SQL :", e)
         return JSONResponse(content={"error": str(e)}, status_code=500)
+
 
 
 
