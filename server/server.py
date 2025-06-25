@@ -8,6 +8,9 @@ import jwt # pour la gestion des tokens JWT
 from jwt.exceptions import ExpiredSignatureError, InvalidTokenError # pour la gestion des tokens JWT
 from pydantic import BaseModel # pour la validation des données
 
+Algorithm = "HS256"  # Algorithme de signature pour JWT 
+SECRET_KEY = os.getenv("JWT_SECRET_KEY")  # Clé secrète pour signer les tokens JWT
+
 class Login(BaseModel):
     email: str
     password: str
@@ -80,7 +83,7 @@ content="""
     <p>Si vous voyez cette page, c’est que vous vous êtes connecté à l’API via un navigateur.</p>
     <p>Normalement, une API est faite pour être utilisée avec un outil comme <strong>Postman</strong>, <strong>Thunder Client</strong> ou directement depuis un frontend.</p>
     <p>Cette page est juste là pour vous souhaiter la bienvenue 😊</p>
-    <p>Vous pouvez à présent aller sur : <a href="/users" style="color: #ffcc00;">/users</a></p>
+    <p>Vous pouvez à présent aller sur : <a href="/users" style="color: #ffcc00;">/users</a> afin d'avoir la liste des utilisateurs</p>
 </body>
 """,
             status_code=200
@@ -128,3 +131,51 @@ async def add_user(
     except Exception as e:
         print("Erreur SQL :", e)
         return JSONResponse(content={"error": str(e)}, status_code=500)
+
+
+# ==== LOGIN ====
+
+@app.post("/login")
+async def login_user(login: Login):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Admin WHERE email = %s AND password = %s", (login.email, login.password))
+        records = cursor.fetchall()
+        conn.close()
+
+        if len(records) > 0:
+            token = jwt.encode({"email": login.email}, SECRET_KEY, algorithm=ALGORITHM)
+            return {"token": token, "message": "Connexion réussie"}
+        else:
+            raise HTTPException(status_code=401, detail="Identifiants incorrects")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur: {str(e)}")
+
+# ==== DELETE UTILISATEUR ====
+
+@app.delete("/users/{user_id}")
+async def delete_user(user_id: int, authorization: Optional[str] = Header(None)):
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Token manquant ou invalide")
+
+    token = authorization.split(" ")[1]
+    try:
+        jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM Utilisateurs WHERE id = %s", (user_id,))
+        conn.commit()
+        deleted = cursor.rowcount
+        conn.close()
+
+        if deleted:
+            return {"message": f"Utilisateur {user_id} supprimé ✅"}
+        else:
+            raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
+    except ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token expiré")
+    except InvalidTokenError:
+        raise HTTPException(status_code=401, detail="Token invalide")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur suppression: {str(e)}")
