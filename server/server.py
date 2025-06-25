@@ -1,6 +1,6 @@
 import mysql.connector
 import os
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi import Form # pour la gestion des formulaires
