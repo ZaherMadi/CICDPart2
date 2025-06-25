@@ -141,7 +141,7 @@ async def login_user(login: Login):
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Admin WHERE email = %s AND password = %s", (login.email, login.password))
+        cursor.execute("SELECT * FROM Administrateurs WHERE email = %s AND password = %s", (login.email, login.password))
         records = cursor.fetchall()
         conn.close()
 
