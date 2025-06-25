@@ -33,7 +33,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 #Create a connection to the database
 def get_db_connection():
     if os.getenv("VERCEL_ENV") == "production":
