@@ -41,7 +41,7 @@ def get_db_connection():
             host=os.getenv("ALWAYSDATA_HOST", "mysql-51bvb.alwaysdata.net"),
             port=3306,
             user=os.getenv("MYSQL_USER", "51BVB"),
-            password=os.getenv("MYSQL_PASSWORD"),
+            password=os.getenv("MYSQL_PASSWORD", "BVB51YNOV"),
             database=os.getenv("MYSQL_DATABASE", "51bvb_formulaire"),
             charset='utf8mb4',
             use_unicode=True,
