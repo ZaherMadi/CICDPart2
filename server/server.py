@@ -96,11 +96,11 @@ async def get_users():
     try:
         conn = get_db_connection()   # ✅ Ouvre la connexion ici
         cursor = conn.cursor()
-        sql_select_Query = "SELECT * FROM utilisateur"
+        sql_select_Query = "SELECT * FROM Utilisateurs"
         cursor.execute(sql_select_Query)
         records = cursor.fetchall()
         conn.close()  # ✅ Toujours fermer la connexion
-        return {'utilisateurs': records}
+        return {'Utilisateurs': records}
     except Exception as e:
         print("Erreur :", e)
         return JSONResponse(content={"error": str(e)}, status_code=500)
@@ -117,7 +117,7 @@ async def add_user(
         conn = get_db_connection()  # ✅ Ajoute cette ligne
         cursor = conn.cursor()
         sql = """
-        INSERT INTO utilisateur (Nom, Prenom, Naissance, Postal, Ville, Email)
+        INSERT INTO Utilisateurs (Nom, Prenom, Naissance, Postal, Ville, Email)
         VALUES (%s, %s, %s, %s, %s, %s)
         """
         values = (lastName, firstName, birthDate, postalCode, city, email)
