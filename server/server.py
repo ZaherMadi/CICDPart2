@@ -50,7 +50,7 @@ def get_db_connection():
     else:
         # For local development, use environment variables
         return mysql.connector.connect(
-            database=os.getenv(),
+            database=os.getenv("MYSQL_DATABASE"),
             user=os.getenv("MYSQL_USER"),
             password=os.getenv("MYSQL_PASSWORD", os.getenv("MYSQL_ROOT_PASSWORD")),
             port=3306, 
