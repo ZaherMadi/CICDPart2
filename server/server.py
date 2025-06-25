@@ -34,7 +34,6 @@ app.add_middleware(
 )
 
 
-
 #Create a connection to the database
 def get_db_connection():
     if os.getenv("VERCEL_ENV") == "production":
@@ -121,8 +120,7 @@ async def add_user(
         INSERT INTO Utilisateurs (Nom, Prenom, Naissance, Postal, Ville, Email)
         VALUES (%s, %s, %s, %s, %s, %s)
         """
-        values = (lastName, firstName, birthDate, postalCode, city, em
-        ail)
+        values = (lastName, firstName, birthDate, postalCode, city, email)
         cursor.execute(sql, values)
         conn.commit()
         return {"message": "✅ Utilisateur ajouté avec succès"}
