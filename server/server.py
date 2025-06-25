@@ -128,4 +128,3 @@ async def add_user(
     except Exception as e:
         print("Erreur SQL :", e)
         return JSONResponse(content={"error": str(e)}, status_code=500)
-
