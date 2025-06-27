@@ -150,7 +150,7 @@ async def login_user(login: Login):
             # Durée du token (1h ici)
             expiration = datetime.utcnow() + timedelta(hours=1)
             token = jwt.encode({"email": login.email, "exp": expiration}, SECRET_KEY, algorithm=ALGORITHM)
-            return {"token": token, "date Exp:" expiration, "message": "Connexion réussie"}
+            return {"token": token, "date Exp": expiration, "message": "Connexion réussie"}
         else:
             raise HTTPException(status_code=401, detail="Identifiants incorrects")
     except Exception as e:
